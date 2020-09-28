@@ -6,11 +6,20 @@ const doInNextTick = (fn) => process.nextTick(fn);
 const doWithTimeout = (fn, ms) => setTimeout(fn, ms);
 
 const doIO = (fn) => fs.readFile("./package.json", fn);
+const doIOAsync = (fn) => {
+  const buffer = fs.readFileSync("./package.json");
+  fn(null, buffer);
+};
 
 doIO((_, data) => {
-  console.log("IO events");
+  console.log("IO events (non blocking)");
   console.log(data.toString());
 });
+doIOAsync((_, data) => {
+  console.log("IO events (blocking");
+  console.log(data.toString());
+});
+
 doImmediately(() => console.log("Immediates queue."));
 
 iPromise(200).then(() => console.log('1.Microtasks (Promise callbacks)'));
