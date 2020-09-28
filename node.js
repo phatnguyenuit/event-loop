@@ -13,11 +13,11 @@ const doIOAsync = (fn) => {
 
 doIO((_, data) => {
   console.log("IO events (non blocking)");
-  console.log(data.toString());
+  // console.log(data.toString());
 });
 doIOAsync((_, data) => {
-  console.log("IO events (blocking");
-  console.log(data.toString());
+  console.log("IO events (blocking)");
+  // console.log(data.toString());
 });
 
 doImmediately(() => console.log("Immediates queue."));
@@ -29,3 +29,15 @@ doWithTimeout(() => console.log("Expired timeout callbackes"), 0);
 
 doInNextTick(() => console.log("nextTick queue."));
 console.log("Current event loop.");
+
+// Result
+/**
+ * IO events (blocking)
+ * Current event loop.
+ * nextTick queue.
+ * Expired timeout callbackes
+ * Immediates queue.
+ * IO events (non blocking)
+ * 1.Microtasks (Promise callbacks)
+ * 2.Microtasks (Promise callbacks)
+ */
